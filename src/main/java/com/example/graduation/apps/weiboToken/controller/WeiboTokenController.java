@@ -28,13 +28,4 @@ public class WeiboTokenController {
         if (code == null) throw new MyException(400,"缺少code");
         return ResultUtil.success(weiboTokenService.add(userId, code));
     }
-
-    @GetMapping("testClass")
-    public String testClass(User user) {
-        return user.getUserId() +" "+ user.getUserName();
-    }
-    @PostMapping("test")
-    public String test(Integer userId, String userName) {
-        return userId +" "+ userName;
-    }
 }
