@@ -14,7 +14,6 @@ import static java.lang.Character.toUpperCase;
  * 用于实体(Entity)与数据传输对象(DTO)之间进行属性值交换
  */
 public class MyBeanUtils {
-
     /**
      * 生成并返回一个 targetClass 类型的对象
      * 该对象包含有 originObject 对象的相同属性名的属性值
@@ -43,7 +42,7 @@ public class MyBeanUtils {
      * @param targetClass 目标类，属性值传递的目标
      * @return 以目标类生成的对象为元素的List
      */
-    public static <T> List<T> BeanBuilder(List<Object> originList, Class<T> targetClass) {
+    public static <T> List<T> BeanBuilder(List<?> originList, Class<T> targetClass) {
         if (originList == null || originList.size() == 0) return new ArrayList<>();
         List<T> targetList = new ArrayList<>();
         for (Object origin : originList) {

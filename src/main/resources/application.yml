@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: 8080
 spring:
   datasource:
     username: root
@@ -10,3 +10,4 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
