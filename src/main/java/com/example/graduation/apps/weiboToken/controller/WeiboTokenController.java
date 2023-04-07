@@ -1,6 +1,5 @@
 package com.example.graduation.apps.weiboToken.controller;
 
-import com.example.graduation.User;
 import com.example.graduation.apps.weiboToken.dto.WeiboTokenDTO;
 import com.example.graduation.apps.weiboToken.service.WeiboTokenService;
 import com.example.graduation.exception.MyException;
