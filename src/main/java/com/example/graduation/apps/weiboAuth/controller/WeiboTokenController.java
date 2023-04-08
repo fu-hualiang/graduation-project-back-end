@@ -1,7 +1,7 @@
-package com.example.graduation.apps.weiboToken.controller;
+package com.example.graduation.apps.weiboAuth.controller;
 
-import com.example.graduation.apps.weiboToken.dto.WeiboTokenDTO;
-import com.example.graduation.apps.weiboToken.service.WeiboTokenService;
+import com.example.graduation.apps.weiboAuth.dto.WeiboTokenDTO;
+import com.example.graduation.apps.weiboAuth.service.WeiboTokenService;
 import com.example.graduation.exception.MyException;
 import com.example.graduation.utils.resultUtils.Result;
 import com.example.graduation.utils.resultUtils.ResultUtil;
@@ -17,14 +17,19 @@ public class WeiboTokenController {
     @Resource
     WeiboTokenService weiboTokenService;
 
+    /**
+     * 获取一个用户的所有 token
+     */
     @GetMapping("{userId}/weiboTokens")
-    public Result<List<WeiboTokenDTO>> findByUserId(@PathVariable("userId") Integer userId) throws MyException {
+    public Result<List<WeiboTokenDTO>> findByUserId(@PathVariable("userId") Long userId){
         return ResultUtil.success(weiboTokenService.findByUserId(userId));
     }
 
+    /**
+     * 通过 code 为一个用户添加 token
+     */
     @PostMapping("{userId}/weiboToken")
-    public Result<String> add(@PathVariable("userId") Integer userId, String code) throws MyException {
-        if (code == null) throw new MyException(400,"缺少code");
+    public Result<WeiboTokenDTO> add(@PathVariable("userId") Long userId, String code) throws MyException {
         return ResultUtil.success(weiboTokenService.add(userId, code));
     }
 }

@@ -1,9 +1,9 @@
-package com.example.graduation.apps.weiboToken.service.impl;
+package com.example.graduation.apps.weiboAuth.service.impl;
 
-import com.example.graduation.apps.weiboToken.dto.WeiboTokenDTO;
-import com.example.graduation.apps.weiboToken.entity.WeiboTokenEntity;
-import com.example.graduation.apps.weiboToken.mapper.WeiboTokenMapper;
-import com.example.graduation.apps.weiboToken.service.WeiboTokenService;
+import com.example.graduation.apps.weiboAuth.dto.WeiboTokenDTO;
+import com.example.graduation.apps.weiboAuth.entity.WeiboTokenEntity;
+import com.example.graduation.apps.weiboAuth.mapper.WeiboTokenMapper;
+import com.example.graduation.apps.weiboAuth.service.WeiboTokenService;
 import com.example.graduation.exception.MyException;
 import com.example.graduation.utils.HttpUtils;
 import com.example.graduation.utils.MyBeanUtils;
@@ -25,12 +25,12 @@ public class WeiboTokenServiceImpl implements WeiboTokenService {
     WeiboTokenMapper weiboTokenMapper;
 
     @Override
-    public List<WeiboTokenDTO> findByUserId(Integer userId) {
+    public List<WeiboTokenDTO> findByUserId(Long userId) {
         List<WeiboTokenEntity> entityList = weiboTokenMapper.findByUserId(userId);
         return MyBeanUtils.BeanBuilder(entityList, WeiboTokenDTO.class);
     }
 
-    public String add(Integer userId, String code) throws MyException {
+    public WeiboTokenDTO add(Long userId, String code) throws MyException {
 
         String url = "https://api.weibo.com/oauth2/access_token";
 
@@ -46,25 +46,32 @@ public class WeiboTokenServiceImpl implements WeiboTokenService {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(str);
             if (!jsonNode.has("access_token")) {
-                throw new MyException(400, "code无效");
+                throw new MyException(40000, "code 无效！");
             }
 
-            WeiboTokenEntity weiboToken = new WeiboTokenEntity();
-            weiboToken.setUserId(userId);
-            weiboToken.setWeiboToken(jsonNode.get("access_token").asText());
-            weiboToken.setCreateTime(new Date());
-            weiboToken.setStatus(0);
-
-            if (weiboTokenMapper.add(weiboToken) != 1) {
-                throw new MyException(400, "添加失败");
+            String accessToken = jsonNode.get("access_token").asText();
+            if(weiboTokenMapper.findByToken(accessToken)!=null){
+                throw new MyException(40000, "token 已存在！");
             }
-            return objectMapper.readValue(jsonNode.get("access_token").toString(), String.class);
+
+            WeiboTokenEntity weiboTokenEntity = new WeiboTokenEntity();
+            weiboTokenEntity.setUserId(userId);
+            weiboTokenEntity.setWeiboId(jsonNode.get("uid").asLong());
+            weiboTokenEntity.setWeiboToken(accessToken);
+            weiboTokenEntity.setCreatedTime(new Date().getTime());
+            weiboTokenEntity.setStatus(0);
+
+            if (weiboTokenMapper.add(weiboTokenEntity) != 1) {
+                throw new MyException(40000, "添加失败");
+            }
+
+            return MyBeanUtils.BeanBuilder(weiboTokenEntity, WeiboTokenDTO.class);
         } catch (MyException e) {
             e.printStackTrace();
             throw new MyException(e.getCode(), e.getMsg());
         } catch (Exception e) {
             e.printStackTrace();
-            throw new MyException(400, "未知错误！");
+            throw new MyException(40000, "未知错误！");
         }
     }
 

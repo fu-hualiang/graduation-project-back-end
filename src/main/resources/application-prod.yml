@@ -1,0 +1,16 @@
+server:
+  port: 8080
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+  datasource:
+    username: root
+    password: Fhl@123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/graduation
+    type: com.alibaba.druid.pool.DruidDataSource
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

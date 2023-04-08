@@ -4,11 +4,11 @@ public enum ResultEnum {
     /**
      * 成功
      */
-    SUCCESS(200),
+    SUCCESS(20000),
     /**
      * 失败
      */
-    FAIL(400),
+    FAIL(40000),
     /**
      * 接口不存在
      */
