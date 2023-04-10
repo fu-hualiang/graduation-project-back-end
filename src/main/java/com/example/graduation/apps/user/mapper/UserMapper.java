@@ -11,4 +11,10 @@ public interface UserMapper {
             FROM `user`
             WHERE username = #{username}""")
     UserEntity findByUserName(String username);
+
+    @Select("""
+            SELECT *
+            FROM `user`
+            WHERE id = #{userId}""")
+    UserEntity findByUserId(Long userId);
 }

@@ -89,7 +89,7 @@ public class HttpUtils {
         map.put("grant_type","authorization_code");
         map.put("redirect_uri","http://124.222.8.252:5173/");
         map.put("code","b9eabf816ef06ab878af56e24f0baa25");
-        System.out.println(HttpUtils.post("https://api.weibo.com/oauth2/access_token", map, null));
+        HttpUtils.post("https://api.weibo.com/oauth2/access_token", map, null);
     }
 }
 
