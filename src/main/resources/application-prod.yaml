@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 9000
 spring:
   config:
     activate:
@@ -17,6 +17,7 @@ spring:
       password: 123456
   mvc:
     static-path-pattern: /static/**
+static-path: http://124.222.8.252:9000/static/
 mybatis:
   configuration:
     map-underscore-to-camel-case: true

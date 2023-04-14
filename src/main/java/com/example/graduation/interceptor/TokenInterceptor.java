@@ -17,13 +17,11 @@ public class TokenInterceptor implements HandlerInterceptor {
         System.out.println("拦截请求信息 (" + request.getMethod() + ") " + request.getRequestURI());
         String token = request.getHeader("Authorization");
         try {
-            String userId = TokenUtils.getClaimByToken(token).getSubject();
-            String loginUserId = request.getHeader("LoginUserId");
-            if (!userId.equals(loginUserId)) throw new MyException(40000, "请登录");
-            return true;
+            TokenUtils.validateToken(token);
         } catch (Exception e) {
             e.printStackTrace();
             throw new MyException(40000, "请登录");
         }
+        return true;
     }
 }

@@ -4,11 +4,9 @@ import lombok.Data;
 
 @Data
 public class UserEntity {
-    Long id;
+    Long userId;
     String username;
     String password;
     String name;
     String avatar;
-    Long weiboId;
-    String weiboToken;
 }

@@ -30,7 +30,7 @@ public class TokenUtils {
     /**
      * 解析 token
      */
-    public static Claims getClaimByToken(String token) {
+    public static Claims validateToken(String token) {
         return Jwts.parser()
                 .setSigningKey(secret)
                 .parseClaimsJws(token)

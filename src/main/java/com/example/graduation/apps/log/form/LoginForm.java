@@ -1,4 +1,4 @@
-package com.example.graduation.apps.user.form;
+package com.example.graduation.apps.log.form;
 
 import lombok.Data;
 

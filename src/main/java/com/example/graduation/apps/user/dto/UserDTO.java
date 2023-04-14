@@ -4,9 +4,7 @@ import lombok.Data;
 
 @Data
 public class UserDTO {
-    Long id;
+    Long userId;
     String name;
     String avatar;
-    Long weiboId;
-    String weiboToken;
 }
