@@ -28,6 +28,14 @@ public class WeiboTokenController {
     }
 
     /**
+     * 根据 weiboTokenId 获取 token
+     */
+    @GetMapping("{weiboTokenId}")
+    public Result<WeiboTokenDTO> findByWeiboTokenId(@PathVariable Long weiboTokenId) {
+        return ResultUtil.success(weiboTokenService.findByWeiboTokenId(weiboTokenId));
+    }
+
+    /**
      * 获取一个用户正在使用/未使用的 token
      */
     @GetMapping("status/{status}")

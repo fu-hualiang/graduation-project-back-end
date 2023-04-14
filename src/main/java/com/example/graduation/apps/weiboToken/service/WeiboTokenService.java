@@ -9,6 +9,8 @@ public interface WeiboTokenService {
 
     List<WeiboTokenDTO> findByUserId(Long userId);
 
+    WeiboTokenDTO findByWeiboTokenId(Long weiboTokenId);
+
     List<WeiboTokenDTO> findByUserIdAndStatus(Long userId, Integer status);
 
     Void create(Long userId, String code) throws MyException;

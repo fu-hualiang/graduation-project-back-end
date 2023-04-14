@@ -36,6 +36,14 @@ public class WeiboTokenServiceImpl implements WeiboTokenService {
     }
 
     /**
+     * 根据 weiboTokenId 获取 token
+     */
+    @Override
+    public WeiboTokenDTO findByWeiboTokenId(Long weiboTokenId) {
+        return MyBeanUtils.BeanBuilder(weiboTokenMapper.findByWeiboTokenId(weiboTokenId), WeiboTokenDTO.class);
+    }
+
+    /**
      * 获取一个用户正在使用/未使用的 token
      */
     @Override

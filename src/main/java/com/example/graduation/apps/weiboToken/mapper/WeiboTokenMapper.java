@@ -17,6 +17,15 @@ public interface WeiboTokenMapper {
     List<WeiboTokenEntity> findByUserId(Long userId);
 
     /**
+     * 根据 weiboTokenId 获取 token
+     */
+    @Select("""
+            SELECT *
+            FROM weibo_token
+            WHERE weibo_token_id=#{weiboTokenId} AND deleted=0""")
+    WeiboTokenEntity findByWeiboTokenId(Long weiboTokenId);
+
+    /**
      * 获取一个用户正在使用/未使用的 token
      */
     @Select("SELECT * " +
@@ -66,5 +75,4 @@ public interface WeiboTokenMapper {
             SET deleted = 1
             WHERE weibo_token_id = #{weiboTokenId}""")
     Long deleteByTokenId(Long weiboTokenId);
-
 }
