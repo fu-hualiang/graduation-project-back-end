@@ -45,8 +45,8 @@ public interface WeiboTokenMapper {
      * 添加微博 token
      */
     @Insert("INSERT INTO " +
-            "weibo_token (user_id,weibo_id,weibo_name,weibo_token,created_time,status,deleted) " +
-            "VALUES (#{userId},#{weiboId},#{weiboName},#{weiboToken},#{createdTime},#{status},#{deleted})")
+            "weibo_token (user_id,weibo_id,weibo_name,weibo_avatar,weibo_token,created_at,status,deleted) " +
+            "VALUES (#{userId},#{weiboId},#{weiboName},#{weiboAvatar},#{weiboToken},#{createdAt},#{status},#{deleted})")
     @Options(useGeneratedKeys = true, keyProperty = "weiboTokenId", keyColumn = "weibo_token_id")
     Long add(WeiboTokenEntity weiboToken);
 
@@ -55,7 +55,7 @@ public interface WeiboTokenMapper {
      */
     @Update("""
             UPDATE weibo_token
-            SET weibo_name = #{weiboName}, status = #{status}
+            SET weibo_name = #{weiboName}, weibo_avatar = #{weiboAvatar}, status = #{status}
             WHERE weibo_token_id = #{weiboTokenId}""")
     Long update(WeiboTokenEntity weiboTokenEntity);
 

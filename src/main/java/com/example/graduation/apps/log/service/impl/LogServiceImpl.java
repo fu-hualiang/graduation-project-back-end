@@ -24,7 +24,7 @@ public class LogServiceImpl implements LogService {
     public TokenDTO login(LoginForm loginForm) throws MyException {
         UserEntity userEntity;
         // 获取用户记录
-        userEntity = userMapper.findByUserName(loginForm.getUsername());
+        userEntity = userMapper.findByUsername(loginForm.getUsername());
         if (userEntity == null || !userEntity.getPassword().equals(loginForm.getPassword())) {
             throw new MyException(40000, "账号或者密码错误");
         }

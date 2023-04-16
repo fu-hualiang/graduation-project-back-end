@@ -7,4 +7,5 @@ public class UserDTO {
     Long userId;
     String name;
     String avatar;
+    Long createdAt;
 }

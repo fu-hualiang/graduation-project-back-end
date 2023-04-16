@@ -8,8 +8,9 @@ public class WeiboTokenDTO {
     Long userId;
     Long weiboId;
     String weiboName;
+    String weiboAvatar;
     String weiboToken;
-    Long createdTime;
+    Long createdAt;
     Integer status;
     Integer deleted;
 }

@@ -11,7 +11,7 @@ public interface UserMapper {
             SELECT *
             FROM `user`
             WHERE username = #{username}""")
-    UserEntity findByUserName(String username);
+    UserEntity findByUsername(String username);
 
     @Select("""
             SELECT *

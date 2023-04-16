@@ -85,9 +85,10 @@ public class WeiboTokenServiceImpl implements WeiboTokenService {
             parameter.put("uid", String.valueOf(weiboId));
             String userInfo = HttpUtils.get(userUrl, parameter, null);
             String weiboName = objectMapper.readTree(userInfo).get("screen_name").asText();
+            String weiboAvatar = objectMapper.readTree(userInfo).get("avatar_hd").asText();
             // 存入数据库
             WeiboTokenEntity weiboTokenEntity = new WeiboTokenEntity(
-                    null, userId, weiboId, weiboName, weiboToken, new Date().getTime(), 0,0);
+                    null, userId, weiboId, weiboName, weiboAvatar, weiboToken, new Date().getTime(), 0,0);
             if (weiboTokenMapper.add(weiboTokenEntity) != 1) {
                 throw new MyException(40000, "添加失败");
             }
@@ -116,14 +117,14 @@ public class WeiboTokenServiceImpl implements WeiboTokenService {
             parameter.put("access_token", weiboTokenEntity.getWeiboToken());
             parameter.put("uid", String.valueOf(weiboTokenEntity.getWeiboId()));
             String userInfo = HttpUtils.get(userUrl, parameter, null);
-            System.out.println(userInfo);
             try {
                 String weiboName = objectMapper.readTree(userInfo).get("screen_name").asText();
-                System.out.println(weiboName);
-                System.out.println(weiboTokenEntity.getWeiboName());
-                if (!weiboTokenEntity.getWeiboName().equals(weiboName)) {
+                String weiboAvatar = objectMapper.readTree(userInfo).get("avatar_hd").asText();
+
+                if (!weiboTokenEntity.getWeiboName().equals(weiboName)||!weiboTokenEntity.getWeiboAvatar().equals(weiboAvatar)) {
                     // 处理请求，保存用户信息
                     weiboTokenEntity.setWeiboName(weiboName);
+                    weiboTokenEntity.setWeiboAvatar(weiboAvatar);
                     if (weiboTokenMapper.update(weiboTokenEntity) != 1) throw new MyException(40000, "更新失败");
                 }
             } catch (Exception e) {

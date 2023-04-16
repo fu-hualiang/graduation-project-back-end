@@ -9,4 +9,5 @@ public class UserEntity {
     String password;
     String name;
     String avatar;
+    Long createdAt;
 }
