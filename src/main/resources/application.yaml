@@ -14,7 +14,7 @@ spring:
       password: 123456
   mvc:
     static-path-pattern: /static/**
-static-path: http://127.0.0.1:8080/static/
+static-path: http://127.0.0.1:9000/static/
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
