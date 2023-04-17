@@ -22,3 +22,9 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+weibo:
+  clientId: 2843458463
+  clientSecret: 5bafa7257b6623c59d18648e2b1f146a
+  redirectUri: http://124.222.8.252:7000/code
+  grantType: authorization_code
+  appKey: 2843458463

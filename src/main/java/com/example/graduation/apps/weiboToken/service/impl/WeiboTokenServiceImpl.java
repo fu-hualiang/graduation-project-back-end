@@ -4,6 +4,7 @@ import com.example.graduation.apps.weiboToken.dto.WeiboTokenDTO;
 import com.example.graduation.apps.weiboToken.entity.WeiboTokenEntity;
 import com.example.graduation.apps.weiboToken.mapper.WeiboTokenMapper;
 import com.example.graduation.apps.weiboToken.service.WeiboTokenService;
+import com.example.graduation.config.WeiboPropertyConfig;
 import com.example.graduation.exception.MyException;
 import com.example.graduation.utils.HttpUtils;
 import com.example.graduation.utils.MyBeanUtils;
@@ -25,6 +26,9 @@ public class WeiboTokenServiceImpl implements WeiboTokenService {
     ObjectMapper objectMapper;
     @Resource
     WeiboTokenMapper weiboTokenMapper;
+    @Resource
+    WeiboPropertyConfig.WeiboProperty weiboProperty;
+
 
     /**
      * 获取一个用户的所有 token
@@ -61,10 +65,10 @@ public class WeiboTokenServiceImpl implements WeiboTokenService {
         String userUrl = "https://api.weibo.com/2/users/show.json";
 
         Map<String, String> parameter = new HashMap<>();
-        parameter.put("client_id", "2843458463");
-        parameter.put("client_secret", "5bafa7257b6623c59d18648e2b1f146a");
-        parameter.put("grant_type", "authorization_code");
-        parameter.put("redirect_uri", "http://124.222.8.252:5173/");
+        parameter.put("client_id", weiboProperty.getClientId());
+        parameter.put("client_secret", weiboProperty.getClientSecret());
+        parameter.put("grant_type", weiboProperty.getGrantType());
+        parameter.put("redirect_uri", weiboProperty.getRedirectUri());
         parameter.put("code", code);
 
         String tokenInfo = HttpUtils.post(accessTokenUrl, parameter, null);
@@ -113,7 +117,7 @@ public class WeiboTokenServiceImpl implements WeiboTokenService {
         // 根据 WeiboToken 和 WeiboId 向微博请求用户信息
         for (WeiboTokenEntity weiboTokenEntity : weiboTokenEntities) {
             Map<String, String> parameter = new HashMap<>();
-            parameter.put("appkey","2843458463");
+            parameter.put("appkey",weiboProperty.getAppKey());
             parameter.put("access_token", weiboTokenEntity.getWeiboToken());
             parameter.put("uid", String.valueOf(weiboTokenEntity.getWeiboId()));
             String userInfo = HttpUtils.get(userUrl, parameter, null);
