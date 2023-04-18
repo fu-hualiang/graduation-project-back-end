@@ -1,4 +1,4 @@
-package com.example.graduation.apps.weiboUser.dto;
+package com.example.graduation.apps.weiboUser.object;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class WeiboUserDTO {
+public class WeiboUser {
     Long weiboId;
     String weiboName;
     String location;

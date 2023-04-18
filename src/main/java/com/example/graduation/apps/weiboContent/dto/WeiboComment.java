@@ -1,21 +1,18 @@
 package com.example.graduation.apps.weiboContent.dto;
 
+import com.example.graduation.apps.weiboUser.object.WeiboUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class WeiboContentDTO {
+public class WeiboComment {
     Long createdAt;
-    Long weiboContentId;
+    Long weiboCommentId;
     String text;
     String source;
-    Long repostsCount;
-    Long commentsCount;
-    Long attitudesCount;
-    List<String> picUrls;
+    WeiboUser weiboUser;
+    Long rootId;
 }
