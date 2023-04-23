@@ -45,8 +45,8 @@ public class WeiboContentServiceImpl implements WeiboContentService {
                 weiboContent.setRepostsCount(statuses.get("reposts_count").asLong());
                 weiboContent.setCommentsCount(statuses.get("comments_count").asLong());
                 weiboContent.setAttitudesCount(statuses.get("attitudes_count").asLong());
-                List<String > PicUrls = new ArrayList<>();
-                for (int j=0;j<statuses.get("pic_urls").size();j++){
+                List<String> PicUrls = new ArrayList<>();
+                for (int j = 0; j < statuses.get("pic_urls").size(); j++) {
                     PicUrls.add(statuses.get("pic_urls").get(j).get("thumbnail_pic").asText());
                 }
                 weiboContent.setPicUrls(PicUrls);
@@ -69,15 +69,15 @@ public class WeiboContentServiceImpl implements WeiboContentService {
         Map<String, String> parameter = new HashMap<>();
         parameter.put("access_token", weiboToken);
         parameter.put("id", String.valueOf(weiboContentId));
-        parameter.put("count","200");
-        parameter.put("page","1");
+        parameter.put("count", "200");
+        parameter.put("page", "1");
         String res = HttpUtils.get(commentUrl, parameter, null);
         List<WeiboComment> weiboCommentList = new ArrayList<>();
         try {
             int count = objectMapper.readTree(res).get("comments").size();
             for (int i = 0; i < count; i++) {
                 JsonNode comments = objectMapper.readTree(res).get("comments").get(i);
-                WeiboComment weiboComment=new WeiboComment();
+                WeiboComment weiboComment = new WeiboComment();
 
                 weiboComment.setCreatedAt(Date.parse(comments.get("created_at").asText()));
                 weiboComment.setWeiboCommentId(comments.get("id").asLong());

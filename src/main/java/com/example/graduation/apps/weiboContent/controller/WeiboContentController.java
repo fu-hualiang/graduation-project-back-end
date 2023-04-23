@@ -27,11 +27,12 @@ public class WeiboContentController {
     public Result<List<WeiboContent>> find(String weiboToken) throws MyException {
         return ResultUtil.success(weiboContentService.find(weiboToken));
     }
+
     /**
      * 获取用户的微博的评论
      */
     @GetMapping("{weiboContentId}/weiboComments")
     public Result<List<WeiboComment>> findCommitByWeiboContentId(String weiboToken, @PathVariable Long weiboContentId) throws MyException {
-        return ResultUtil.success(weiboContentService.findCommitByWeiboContentId(weiboToken,weiboContentId));
+        return ResultUtil.success(weiboContentService.findCommitByWeiboContentId(weiboToken, weiboContentId));
     }
 }

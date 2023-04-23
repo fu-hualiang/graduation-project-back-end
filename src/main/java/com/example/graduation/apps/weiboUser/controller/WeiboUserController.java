@@ -22,6 +22,6 @@ public class WeiboUserController {
      */
     @GetMapping("{weiboId}")
     public Result<WeiboUser> findByWeiboId(@PathVariable Long weiboId, String weiboToken) throws MyException {
-        return ResultUtil.success(weiboUserService.findByWeiboId(weiboId,weiboToken));
+        return ResultUtil.success(weiboUserService.findByWeiboId(weiboId, weiboToken));
     }
 }

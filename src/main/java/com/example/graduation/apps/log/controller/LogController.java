@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LogController {
     @Resource
     LogService logService;
+
     /**
      * 登录,成功则返回token
      */

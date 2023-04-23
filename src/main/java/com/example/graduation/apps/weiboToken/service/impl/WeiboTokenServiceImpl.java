@@ -92,7 +92,7 @@ public class WeiboTokenServiceImpl implements WeiboTokenService {
             String weiboAvatar = objectMapper.readTree(userInfo).get("avatar_hd").asText();
             // 存入数据库
             WeiboTokenEntity weiboTokenEntity = new WeiboTokenEntity(
-                    null, userId, weiboId, weiboName, weiboAvatar, weiboToken, new Date().getTime(), 0,0);
+                    null, userId, weiboId, weiboName, weiboAvatar, weiboToken, new Date().getTime(), 0, 0);
             if (weiboTokenMapper.add(weiboTokenEntity) != 1) {
                 throw new MyException(40000, "添加失败");
             }
@@ -117,7 +117,7 @@ public class WeiboTokenServiceImpl implements WeiboTokenService {
         // 根据 WeiboToken 和 WeiboId 向微博请求用户信息
         for (WeiboTokenEntity weiboTokenEntity : weiboTokenEntities) {
             Map<String, String> parameter = new HashMap<>();
-            parameter.put("appkey",weiboProperty.getAppKey());
+            parameter.put("appkey", weiboProperty.getAppKey());
             parameter.put("access_token", weiboTokenEntity.getWeiboToken());
             parameter.put("uid", String.valueOf(weiboTokenEntity.getWeiboId()));
             String userInfo = HttpUtils.get(userUrl, parameter, null);
@@ -125,7 +125,7 @@ public class WeiboTokenServiceImpl implements WeiboTokenService {
                 String weiboName = objectMapper.readTree(userInfo).get("screen_name").asText();
                 String weiboAvatar = objectMapper.readTree(userInfo).get("avatar_hd").asText();
 
-                if (!weiboTokenEntity.getWeiboName().equals(weiboName)||!weiboTokenEntity.getWeiboAvatar().equals(weiboAvatar)) {
+                if (!weiboTokenEntity.getWeiboName().equals(weiboName) || !weiboTokenEntity.getWeiboAvatar().equals(weiboAvatar)) {
                     // 处理请求，保存用户信息
                     weiboTokenEntity.setWeiboName(weiboName);
                     weiboTokenEntity.setWeiboAvatar(weiboAvatar);
@@ -175,14 +175,14 @@ public class WeiboTokenServiceImpl implements WeiboTokenService {
     public Void updateStatus(Long weiboTokenId) {
         // 取出 weiboToken 记录
         WeiboTokenEntity weiboTokenEntity = weiboTokenMapper.findByTokenId(weiboTokenId);
-        if (weiboTokenEntity.getStatus() == 1){
+        if (weiboTokenEntity.getStatus() == 1) {
             // 停用
             weiboTokenEntity.setStatus(0);
             weiboTokenMapper.update(weiboTokenEntity);
-        }else{
+        } else {
             // 启用
             List<WeiboTokenEntity> weiboTokenEntities = weiboTokenMapper.findByUserIdAndStatus(weiboTokenEntity.getUserId(), 1);
-            for (WeiboTokenEntity weiboToken : weiboTokenEntities){
+            for (WeiboTokenEntity weiboToken : weiboTokenEntities) {
                 weiboToken.setStatus(0);
                 weiboTokenMapper.update(weiboToken);
             }

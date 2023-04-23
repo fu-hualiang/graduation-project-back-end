@@ -18,7 +18,7 @@ public class MyBeanUtils {
      * 生成并返回一个 targetClass 类型的对象
      * 该对象包含有 originObject 对象的相同属性名的属性值
      *
-     * @param origin 原对象，属性值来源
+     * @param origin      原对象，属性值来源
      * @param targetClass 目标类，属性值传递的目标
      * @return 根据目标类生成对象
      */
@@ -38,7 +38,7 @@ public class MyBeanUtils {
      * 生成并返回一个 List<targetClass> 类型的对象
      * 该 List 对象中的元素包含有 originList 对象中对应元素的相同属性名的属性值
      *
-     * @param originList 原对象，属性值来源
+     * @param originList  原对象，属性值来源
      * @param targetClass 目标类，属性值传递的目标
      * @return 以目标类生成的对象为元素的List
      */
@@ -76,7 +76,7 @@ public class MyBeanUtils {
      *
      * @param origin 原对象，属性值来源
      * @param target 目标对象，属性值传递的目标
-     * @param map 属性名映射关系
+     * @param map    属性名映射关系
      * @return 属性值修改后的目标对象
      */
     public static <T> T BeanReplicator(Object origin, T target, Map<String, String> map) {
@@ -93,12 +93,13 @@ public class MyBeanUtils {
         }
         return target;
     }
+
     /**
      * 首字母大写(进行字母的ascii编码前移，效率是最高的)
      *
      * @param str 需要转化的字符串
      */
-    private static String upperCase(String str){
+    private static String upperCase(String str) {
         char[] chars = str.toCharArray();
         chars[0] = toUpperCase(chars[0]);
         return String.valueOf(chars);

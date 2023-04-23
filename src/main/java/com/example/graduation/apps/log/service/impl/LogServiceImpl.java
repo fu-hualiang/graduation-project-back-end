@@ -20,6 +20,7 @@ public class LogServiceImpl implements LogService {
     UserMapper userMapper;
     @Resource
     WeiboTokenMapper weiboTokenMapper;
+
     @Override
     public TokenDTO login(LoginForm loginForm) throws MyException {
         UserEntity userEntity;
@@ -32,7 +33,7 @@ public class LogServiceImpl implements LogService {
         // 获取正在使用的微博 token 记录
         List<WeiboTokenEntity> weiboTokenEntities = weiboTokenMapper.findByUserIdAndStatus(userId, 1);
         Long weiboTokenId = null;
-        if (weiboTokenEntities.size()==1){
+        if (weiboTokenEntities.size() == 1) {
             weiboTokenId = weiboTokenEntities.get(0).getWeiboTokenId();
         }
 

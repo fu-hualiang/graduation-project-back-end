@@ -16,6 +16,7 @@ import java.util.Map;
 public class WeiboUserServiceImpl implements WeiboUserService {
     @Resource
     ObjectMapper objectMapper;
+
     /**
      * 获取微博用户信息
      */
@@ -23,7 +24,7 @@ public class WeiboUserServiceImpl implements WeiboUserService {
     public WeiboUser findByWeiboId(Long weiboId, String weiboToken) throws MyException {
         String userUrl = "https://api.weibo.com/2/users/show.json";
 
-        Map<String ,String > parameter = new HashMap<>();
+        Map<String, String> parameter = new HashMap<>();
         parameter.put("access_token", weiboToken);
         parameter.put("uid", String.valueOf(weiboId));
         String userInfo = HttpUtils.get(userUrl, parameter, null);
@@ -34,7 +35,7 @@ public class WeiboUserServiceImpl implements WeiboUserService {
             weiboUser.setCreatedAt(Date.parse(createdAt));
         } catch (Exception e) {
             e.printStackTrace();
-            throw new MyException(40000,"未知错误");
+            throw new MyException(40000, "未知错误");
         }
         return weiboUser;
     }

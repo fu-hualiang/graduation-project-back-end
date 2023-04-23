@@ -20,7 +20,7 @@ public class LettuceConfig {
     }
 
     @Bean
-    RedisCommands<String, String> redis(StatefulRedisConnection<String, String> connection){
+    RedisCommands<String, String> redis(StatefulRedisConnection<String, String> connection) {
         return connection.sync();
     }
 }

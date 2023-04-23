@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class WeiboPropertyConfig {
 
     @Data
-    public static class WeiboProperty{
+    public static class WeiboProperty {
         @Value("${weibo.clientId}")
         String clientId;
         @Value("${weibo.clientSecret}")
@@ -23,7 +23,7 @@ public class WeiboPropertyConfig {
     }
 
     @Bean
-    WeiboProperty weiboProperty(){
+    WeiboProperty weiboProperty() {
         return new WeiboProperty();
     }
 }

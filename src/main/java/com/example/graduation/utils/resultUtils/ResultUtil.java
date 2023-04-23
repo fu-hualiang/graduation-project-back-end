@@ -14,20 +14,19 @@ public class ResultUtil {
     }
 
 
-
     public static <T> Result<T> fail(String msg) {
         Result<T> result = new Result<>();
         result.setCode(ResultEnum.FAIL).setMsg(msg);
         return result;
     }
 
-    public static <T> Result<T> defineFail(int code, String msg){
+    public static <T> Result<T> defineFail(int code, String msg) {
         Result<T> result = new Result<>();
         result.setCode(code).setMsg(msg);
         return result;
     }
 
-    public static <T> Result<T> define(int code, String msg, T data){
+    public static <T> Result<T> define(int code, String msg, T data) {
         Result<T> result = new Result<>();
         result.setCode(code).setMsg(msg).setData(data);
         return result;

@@ -23,10 +23,12 @@ public class HttpUtils {
         PUT(2),
         DELETE(3);
         public final int method;
+
         RequestEnum(int method) {
             this.method = method;
         }
     }
+
     public static String get(String url, Map<String, String> parameterMap, Map<String, String> headerMap) {
         return doRequest(RequestEnum.GET, url, parameterMap, headerMap);
     }
@@ -83,12 +85,12 @@ public class HttpUtils {
     }
 
     public static void main(String[] args) {
-        Map<String ,String > map = new HashMap<>();
-        map.put("client_id","2843458463");
-        map.put("client_secret","5bafa7257b6623c59d18648e2b1f146a");
-        map.put("grant_type","authorization_code");
-        map.put("redirect_uri","http://124.222.8.252:5173/");
-        map.put("code","b9eabf816ef06ab878af56e24f0baa25");
+        Map<String, String> map = new HashMap<>();
+        map.put("client_id", "2843458463");
+        map.put("client_secret", "5bafa7257b6623c59d18648e2b1f146a");
+        map.put("grant_type", "authorization_code");
+        map.put("redirect_uri", "http://124.222.8.252:5173/");
+        map.put("code", "b9eabf816ef06ab878af56e24f0baa25");
         HttpUtils.post("https://api.weibo.com/oauth2/access_token", map, null);
     }
 }
