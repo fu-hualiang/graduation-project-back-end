@@ -1,6 +1,5 @@
-package com.example.graduation.apps.weiboContent.dto;
+package com.example.graduation.apps.weiboComment.object;
 
-import com.example.graduation.apps.weiboUser.object.WeiboUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,4 +14,7 @@ public class WeiboComment {
     String source;
     WeiboUser weiboUser;
     Long rootId;
+
+    WeiboContent weiboContent;
+    WeiboComment replyComment;
 }

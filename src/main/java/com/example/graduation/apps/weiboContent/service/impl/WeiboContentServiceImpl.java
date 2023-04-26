@@ -1,9 +1,8 @@
 package com.example.graduation.apps.weiboContent.service.impl;
 
-import com.example.graduation.apps.weiboContent.dto.WeiboComment;
-import com.example.graduation.apps.weiboContent.dto.WeiboContent;
+import com.example.graduation.apps.weiboContent.object.WeiboContent;
+import com.example.graduation.apps.weiboContent.object.WeiboUser;
 import com.example.graduation.apps.weiboContent.service.WeiboContentService;
-import com.example.graduation.apps.weiboUser.object.WeiboUser;
 import com.example.graduation.exception.MyException;
 import com.example.graduation.utils.HttpUtils;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -59,39 +58,42 @@ public class WeiboContentServiceImpl implements WeiboContentService {
         return weiboContentList;
     }
 
-    /**
-     * 获取用户的微博的评论
-     */
     @Override
-    public List<WeiboComment> findCommitByWeiboContentId(String weiboToken, Long weiboContentId) throws MyException {
-        String commentUrl = "https://api.weibo.com/2/comments/show.json";
+    public List<WeiboContent> findMention(String weiboToken) throws MyException {
+        String userUrl = "https://api.weibo.com/2/statuses/mentions.json";
 
         Map<String, String> parameter = new HashMap<>();
         parameter.put("access_token", weiboToken);
-        parameter.put("id", String.valueOf(weiboContentId));
-        parameter.put("count", "200");
-        parameter.put("page", "1");
-        String res = HttpUtils.get(commentUrl, parameter, null);
-        List<WeiboComment> weiboCommentList = new ArrayList<>();
+        String res = HttpUtils.get(userUrl, parameter, null);
+        List<WeiboContent> weiboContentList = new ArrayList<>();
         try {
-            int count = objectMapper.readTree(res).get("comments").size();
+            int count = objectMapper.readTree(res).get("statuses").size();
             for (int i = 0; i < count; i++) {
-                JsonNode comments = objectMapper.readTree(res).get("comments").get(i);
-                WeiboComment weiboComment = new WeiboComment();
+                WeiboContent weiboContent = new WeiboContent();
+                JsonNode statuses = objectMapper.readTree(res).get("statuses").get(i);
+                weiboContent.setWeiboContentId(statuses.get("id").asLong());
+                weiboContent.setSource(statuses.get("source").asText());
+                weiboContent.setText(statuses.get("text").asText());
+                weiboContent.setCreatedAt(Date.parse(statuses.get("created_at").asText()));
+                weiboContent.setRepostsCount(statuses.get("reposts_count").asLong());
+                weiboContent.setCommentsCount(statuses.get("comments_count").asLong());
+                weiboContent.setAttitudesCount(statuses.get("attitudes_count").asLong());
+                weiboContent.setPicUrls(new ArrayList<>());
 
-                weiboComment.setCreatedAt(Date.parse(comments.get("created_at").asText()));
-                weiboComment.setWeiboCommentId(comments.get("id").asLong());
-                weiboComment.setText(comments.get("text").asText());
-                weiboComment.setSource(comments.get("source").asText());
-                WeiboUser weiboUser = objectMapper.readValue(comments.get("user").toString(), WeiboUser.class);
-                weiboComment.setWeiboUser(weiboUser);
-                weiboComment.setRootId(comments.get("rootid").asLong());
-                weiboCommentList.add(weiboComment);
+                WeiboUser weiboUser = new WeiboUser();
+                JsonNode user = statuses.get("user");
+                weiboUser.setWeiboId(user.get("id").asLong());
+                weiboUser.setWeiboName(user.get("screen_name").asText());
+                weiboUser.setLocation(user.get("location").asText());
+                weiboUser.setWeiboAvatar(user.get("avatar_hd").asText());
+                weiboContent.setWeiboUser(weiboUser);
+
+                weiboContentList.add(weiboContent);
             }
         } catch (Exception e) {
             e.printStackTrace();
             throw new MyException(40000, "未知错误");
         }
-        return weiboCommentList;
+        return weiboContentList;
     }
 }

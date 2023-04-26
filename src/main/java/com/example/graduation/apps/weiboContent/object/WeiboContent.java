@@ -1,4 +1,4 @@
-package com.example.graduation.apps.weiboContent.dto;
+package com.example.graduation.apps.weiboContent.object;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,4 +18,6 @@ public class WeiboContent {
     Long commentsCount;
     Long attitudesCount;
     List<String> picUrls;
+
+    WeiboUser weiboUser;
 }
