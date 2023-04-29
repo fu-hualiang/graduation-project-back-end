@@ -1,13 +1,19 @@
 package com.example.graduation.utils;
 
+import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,23 +35,23 @@ public class HttpUtils {
         }
     }
 
-    public static String get(String url, Map<String, String> parameterMap, Map<String, String> headerMap) {
-        return doRequest(RequestEnum.GET, url, parameterMap, headerMap);
+    public static String get(String url, Map<String, String> parameterMap, Map<String, String> bodyMap) {
+        return doRequest(RequestEnum.GET, url, parameterMap, bodyMap);
     }
 
-    public static String post(String url, Map<String, String> parameterMap, Map<String, String> headerMap) {
-        return doRequest(RequestEnum.POST, url, parameterMap, headerMap);
+    public static String post(String url, Map<String, String> parameterMap, Map<String, String> bodyMap) {
+        return doRequest(RequestEnum.POST, url, parameterMap, bodyMap);
     }
 
-    public static String put(String url, Map<String, String> parameterMap, Map<String, String> headerMap) {
-        return doRequest(RequestEnum.PUT, url, parameterMap, headerMap);
+    public static String put(String url, Map<String, String> parameterMap, Map<String, String> bodyMap) {
+        return doRequest(RequestEnum.PUT, url, parameterMap, bodyMap);
     }
 
-    public static String delete(String url, Map<String, String> parameterMap, Map<String, String> headerMap) {
-        return doRequest(RequestEnum.DELETE, url, parameterMap, headerMap);
+    public static String delete(String url, Map<String, String> parameterMap, Map<String, String> bodyMap) {
+        return doRequest(RequestEnum.DELETE, url, parameterMap, bodyMap);
     }
 
-    private static String doRequest(RequestEnum method, String url, Map<String, String> parameterMap, Map<String, String> headerMap) {
+    private static String doRequest(RequestEnum method, String url, Map<String, String> parameterMap, Map<String, String> bodyMap) {
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
             ClassicRequestBuilder classicRequestBuilder;
             // 请求方法
@@ -66,11 +72,14 @@ public class HttpUtils {
                     classicRequestBuilder.addParameter(entry.getKey(), entry.getValue());
                 }
             }
-            // 请求头
-            if (headerMap != null) {
-                for (Map.Entry<String, String> entry : headerMap.entrySet()) {
-                    classicRequestBuilder.addHeader(entry.getKey(), entry.getValue());
+            // 请求体
+            if (bodyMap != null) {
+                List<NameValuePair> nvps = new ArrayList<>();
+                for (Map.Entry<String, String> entry : bodyMap.entrySet()) {
+                    nvps.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
                 }
+                UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(nvps, StandardCharsets.UTF_8);
+                classicRequestBuilder.setEntity(formEntity);
             }
             // 发送请求
             return httpclient.execute(classicRequestBuilder.build(), response -> {

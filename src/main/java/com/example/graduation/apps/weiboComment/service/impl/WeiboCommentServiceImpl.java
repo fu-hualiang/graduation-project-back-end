@@ -131,4 +131,25 @@ public class WeiboCommentServiceImpl implements WeiboCommentService {
         }
         return weiboCommentList;
     }
+
+    @Override
+    public Void create(String weiboToken, Long weiboId, Long commentId, String comment) {
+        Map<String, String> parameter = new HashMap<>();
+        parameter.put("access_token", weiboToken);
+        parameter.put("id", String.valueOf(weiboId));
+        parameter.put("rip","124.222.8.252");
+
+        Map<String, String> body = new HashMap<>();
+        body.put("comment",comment);
+
+        String url;
+        if (commentId == null) {
+            url = "https://api.weibo.com/2/comments/create.json";
+        } else {
+            url = "https://api.weibo.com/2/comments/reply.json";
+            parameter.put("cid", String.valueOf(commentId));
+        }
+        String res = HttpUtils.post(url, parameter, body);
+        return null;
+    }
 }
