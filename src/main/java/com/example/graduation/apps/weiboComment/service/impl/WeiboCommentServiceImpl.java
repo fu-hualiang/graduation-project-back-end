@@ -39,16 +39,20 @@ public class WeiboCommentServiceImpl implements WeiboCommentService {
         try {
             int count = objectMapper.readTree(res).get("comments").size();
             for (int i = 0; i < count; i++) {
-                JsonNode comments = objectMapper.readTree(res).get("comments").get(i);
+                JsonNode comment = objectMapper.readTree(res).get("comments").get(i);
                 WeiboComment weiboComment = new WeiboComment();
 
-                weiboComment.setCreatedAt(Date.parse(comments.get("created_at").asText()));
-                weiboComment.setWeiboCommentId(comments.get("id").asLong());
-                weiboComment.setText(comments.get("text").asText());
-                weiboComment.setSource(comments.get("source").asText());
-                WeiboUser weiboUser = objectMapper.readValue(comments.get("user").toString(), WeiboUser.class);
+                weiboComment.setCreatedAt(Date.parse(comment.get("created_at").asText()));
+                weiboComment.setWeiboCommentId(comment.get("id").asLong());
+                weiboComment.setRootId(comment.get("rootid").asLong());
+                weiboComment.setText(comment.get("text").asText());
+                weiboComment.setSource(comment.get("source").asText());
+                weiboComment.setLikeCount(comment.get("like_count").asLong());
+                weiboComment.setReplyCount(comment.get("reply_count").asLong());
+
+                WeiboUser weiboUser = objectMapper.readValue(comment.get("user").toString(), WeiboUser.class);
                 weiboComment.setWeiboUser(weiboUser);
-                weiboComment.setRootId(comments.get("rootid").asLong());
+
                 weiboCommentList.add(weiboComment);
             }
         } catch (Exception e) {
@@ -67,15 +71,17 @@ public class WeiboCommentServiceImpl implements WeiboCommentService {
         String res = HttpUtils.get(userUrl, parameter, null);
         List<WeiboComment> weiboCommentList = new ArrayList<>();
         try {
-            int count = objectMapper.readTree(res).get("total_number").asInt();
+            int count = objectMapper.readTree(res).get("comments").size();
             for (int i = 0; i < count; i++) {
                 JsonNode comment = objectMapper.readTree(res).get("comments").get(i);
                 WeiboComment weiboComment = new WeiboComment();
                 weiboComment.setCreatedAt(Date.parse(comment.get("created_at").asText()));
                 weiboComment.setWeiboCommentId(comment.get("id").asLong());
+                weiboComment.setRootId(comment.get("rootid").asLong());
                 weiboComment.setText(comment.get("text").asText());
                 weiboComment.setSource(comment.get("source").asText());
-                weiboComment.setRootId(comment.get("rootid").asLong());
+                weiboComment.setLikeCount(comment.get("like_count").asLong());
+                weiboComment.setReplyCount(comment.get("reply_count").asLong());
 
                 JsonNode user = comment.get("user");
                 WeiboUser weiboUser = new WeiboUser();
@@ -111,8 +117,8 @@ public class WeiboCommentServiceImpl implements WeiboCommentService {
                     WeiboComment replyComment = new WeiboComment();
                     replyComment.setCreatedAt(Date.parse(comment.get("created_at").asText()));
                     replyComment.setWeiboCommentId(comment.get("id").asLong());
-                    replyComment.setText(comment.get("text").asText());
                     replyComment.setRootId(comment.get("rootid").asLong());
+                    replyComment.setText(comment.get("text").asText());
 
                     user = comment.get("user");
                     weiboUser = new WeiboUser();

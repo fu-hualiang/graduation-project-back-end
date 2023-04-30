@@ -10,11 +10,13 @@ import lombok.NoArgsConstructor;
 public class WeiboComment {
     Long createdAt;
     Long weiboCommentId;
+    Long rootId;
     String text;
     String source;
-    WeiboUser weiboUser;
-    Long rootId;
+    Long likeCount;
+    Long replyCount;
 
+    WeiboUser weiboUser;
     WeiboContent weiboContent;
     WeiboComment replyComment;
 }
