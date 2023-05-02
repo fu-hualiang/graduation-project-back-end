@@ -9,12 +9,18 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service("weiboContentService")
 public class WeiboContentServiceImpl implements WeiboContentService {
@@ -95,5 +101,26 @@ public class WeiboContentServiceImpl implements WeiboContentService {
             throw new MyException(40000, "未知错误");
         }
         return weiboContentList;
+    }
+
+    @Override
+    public Void create(String weiboToken, String status, String picture, String path) {
+        String shareUrl = "https://api.weibo.com/2/statuses/share.json";
+
+        Map<String, String> parameter = new HashMap<>();
+        parameter.put("access_token", weiboToken);
+        parameter.put("rip", "124.222.8.252");
+
+        Map<String, String> body = new HashMap<>();
+        body.put("status", status + "http://lighthouse.kingstarfly.cn");
+
+        String res;
+        if (picture == null) {
+            res = HttpUtils.post(shareUrl, parameter, body);
+        } else {
+            File file = new File(path.replace("\\","/")+picture.substring("http://127.0.0.1:9000/static/pictureMaterial/".length()));
+            res = HttpUtils.post(shareUrl, parameter, body, file);
+        }
+        return null;
     }
 }

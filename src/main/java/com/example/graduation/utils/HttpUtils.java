@@ -1,14 +1,18 @@
 package com.example.graduation.utils;
 
 import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -81,6 +85,38 @@ public class HttpUtils {
                 UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(nvps, StandardCharsets.UTF_8);
                 classicRequestBuilder.setEntity(formEntity);
             }
+            // 发送请求
+            return httpclient.execute(classicRequestBuilder.build(), response -> {
+                final HttpEntity entity = response.getEntity();
+                String str = EntityUtils.toString(entity);
+                EntityUtils.consume(entity);
+                return str;
+            });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public static String post(String url, Map<String, String> parameterMap, Map<String, String> bodyMap, File file) {
+        try {
+            CloseableHttpClient httpclient = HttpClients.createDefault();
+            ClassicRequestBuilder classicRequestBuilder= ClassicRequestBuilder.post(url);
+            // 请求参数
+            if (parameterMap != null) {
+                for (Map.Entry<String, String> entry : parameterMap.entrySet()) {
+                    classicRequestBuilder.addParameter(entry.getKey(), entry.getValue());
+                }
+            }
+            // 请求体
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            if (bodyMap != null) {
+                for (Map.Entry<String, String> entry : bodyMap.entrySet()) {
+                    builder.addTextBody(entry.getKey(), entry.getValue());
+                }
+            }
+            builder.addBinaryBody("pic", file, ContentType.MULTIPART_FORM_DATA, file.getName());
+            classicRequestBuilder.setEntity(builder.build());
             // 发送请求
             return httpclient.execute(classicRequestBuilder.build(), response -> {
                 final HttpEntity entity = response.getEntity();
