@@ -107,19 +107,22 @@ public class WeiboContentServiceImpl implements WeiboContentService {
     public Void create(String weiboToken, String status, String picture, String path) {
         String shareUrl = "https://api.weibo.com/2/statuses/share.json";
 
-        Map<String, String> parameter = new HashMap<>();
-        parameter.put("access_token", weiboToken);
-        parameter.put("rip", "124.222.8.252");
-
         Map<String, String> body = new HashMap<>();
         body.put("status", status + "http://lighthouse.kingstarfly.cn");
 
         String res;
         if (picture == null) {
+            Map<String, String> parameter = new HashMap<>();
+            parameter.put("access_token", weiboToken);
+            parameter.put("rip", "124.222.8.252");
             res = HttpUtils.post(shareUrl, parameter, body);
         } else {
-            File file = new File(path.replace("\\","/")+picture.substring("http://127.0.0.1:9000/static/pictureMaterial/".length()));
-            res = HttpUtils.post(shareUrl, parameter, body, file);
+            body.put("rip", "124.222.8.252");
+            body.put("access_token", "2.00TsM5bGR8r7GD3d43417c5d09LB5T");
+
+            String pictureName = picture.split("/")[picture.split("/").length - 1];
+            File file = new File(path + pictureName);
+            res = HttpUtils.post(shareUrl, null, body, file);
         }
         return null;
     }

@@ -15,7 +15,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(tokenInterceptor)
-                .addPathPatterns("/**").excludePathPatterns("/weiboComments/**")
+                .addPathPatterns("/**").excludePathPatterns("/weiboContents/**")
                 .excludePathPatterns("/login").excludePathPatterns("/error")
                 .excludePathPatterns("/static/**");
     }
