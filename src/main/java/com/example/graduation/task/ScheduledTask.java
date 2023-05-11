@@ -38,8 +38,8 @@ public class ScheduledTask {
             String[] args = new String[]{pythonPath, pythonScriptPath + "account_starter.py", String.valueOf(weiboId)};
             Account account;
             try {
-                String res = PythonScriptUtils.run(args).get(0);
-                account = objectMapper.readValue(res, Account.class);
+                String accountString = PythonScriptUtils.run(args).get(0);
+                account = objectMapper.readValue(accountString, Account.class);
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new MyException(40000, "未知错误");
@@ -70,6 +70,7 @@ public class ScheduledTask {
                         args = new String[]{pythonPath, pythonScriptPath + "user_starter.py", String.valueOf(follower.getFollowerId())};
                         String userString = PythonScriptUtils.run(args).get(0);
                         UserEntity user = objectMapper.readValue(userString, UserEntity.class);
+                        user.setDeleted(0);
                         taskMapper.createUserData(user);
                     }
                 }

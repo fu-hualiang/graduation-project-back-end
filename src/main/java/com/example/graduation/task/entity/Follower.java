@@ -1,6 +1,7 @@
 package com.example.graduation.task.entity;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 
 @Data
@@ -14,7 +15,7 @@ public class Follower {
     public Long getWeiboId() {
         return weiboId;
     }
-    @JsonGetter("weibo_id")
+    @JsonSetter("weibo_id")
     public void setWeiboId(Long weiboId) {
         this.weiboId = weiboId;
     }
@@ -22,7 +23,7 @@ public class Follower {
     public Long getFollowerId() {
         return followerId;
     }
-    @JsonGetter("follower_id")
+    @JsonSetter("follower_id")
     public void setFollowerId(Long followerId) {
         this.followerId = followerId;
     }

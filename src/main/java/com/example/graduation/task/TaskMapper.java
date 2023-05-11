@@ -51,7 +51,7 @@ public interface TaskMapper {
     List<UserEntity> findUserDataByWeiboId(Long weiboId);
 
     @Insert("""
-            INSERT INTO account_data
+            INSERT INTO user_data
             (weibo_id,gender,location,verified,birthday,age,constellation,school,company,weibo_num,following,followers,devices,recent_weibo_num,created_at,deleted)
             VALUES
             (#{weiboId},#{gender},#{location},#{verified},#{birthday},#{age},#{constellation},#{school},#{company},#{weiboNum},#{following},#{followers},#{devices},#{recentWeiboNum},#{createdAt},#{deleted})

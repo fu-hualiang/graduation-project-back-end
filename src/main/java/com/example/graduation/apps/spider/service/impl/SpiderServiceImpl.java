@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service("spiderService")
@@ -59,7 +58,7 @@ public class SpiderServiceImpl implements SpiderService {
 
     @Override
     public List<Comment> crawlComment(String weiboId) throws MyException {
-        String[] args = new String[]{pythonPath, pythonScriptPath + "weibo_starter.py", weiboId};
+        String[] args = new String[]{pythonPath, pythonScriptPath + "comment_starter.py", weiboId};
         List<Comment> commentList = new ArrayList<>();
         try {
             List<String> commentStringList = PythonScriptUtils.run(args);

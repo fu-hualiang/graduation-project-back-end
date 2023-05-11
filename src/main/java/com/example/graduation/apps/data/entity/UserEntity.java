@@ -1,5 +1,7 @@
 package com.example.graduation.apps.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 
 @Data
@@ -10,7 +12,7 @@ public class UserEntity {
     String gender;
     String location;
     String verified;
-    Long birthday;
+    String birthday;
     Long age;
     String constellation;
     String school;
@@ -25,4 +27,44 @@ public class UserEntity {
     Long createdAt;
 
     Integer deleted;
+
+    @JsonGetter("weiboId")
+    public Long getWeiboId() {
+        return weiboId;
+    }
+
+    @JsonSetter("weibo_id")
+    public void setWeiboId(Long weiboId) {
+        this.weiboId = weiboId;
+    }
+
+    @JsonGetter("weiboNum")
+    public Long getWeiboNum() {
+        return weiboNum;
+    }
+
+    @JsonSetter("weibo_num")
+    public void setWeiboNum(Long weiboNum) {
+        this.weiboNum = weiboNum;
+    }
+
+    @JsonGetter("recentWeiboNum")
+    public Long getRecentWeiboNum() {
+        return recentWeiboNum;
+    }
+
+    @JsonSetter("recent_weibo_num")
+    public void setRecentWeiboNum(Long recentWeiboNum) {
+        this.recentWeiboNum = recentWeiboNum;
+    }
+
+    @JsonGetter("createdAt")
+    public Long getCreatedAt() {
+        return createdAt;
+    }
+
+    @JsonSetter("created_at")
+    public void setCreatedAt(Long createdAt) {
+        this.createdAt = createdAt;
+    }
 }
