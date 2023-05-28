@@ -49,7 +49,7 @@ public class ScheduledTask {
         }
     }
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "10 37 22 * * ?")
     public void collectUserData() throws MyException {
         taskMapper.deleteAllFollowerData();
         taskMapper.deleteAllUserData();

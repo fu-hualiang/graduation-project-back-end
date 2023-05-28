@@ -13,8 +13,6 @@ public class WeiboComment {
     Long rootId;
     String text;
     String source;
-    Long likeCount;
-    Long replyCount;
 
     WeiboUser weiboUser;
     WeiboContent weiboContent;

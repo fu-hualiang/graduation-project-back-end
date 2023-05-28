@@ -5,4 +5,6 @@ import com.example.graduation.apps.user.dto.UserDTO;
 public interface UserService {
 
     UserDTO findByUserId(Long userId);
+
+    Void update(Long userId, String name);
 }

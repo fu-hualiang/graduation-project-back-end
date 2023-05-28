@@ -3,6 +3,7 @@ package com.example.graduation.apps.weiboContent.service;
 import com.example.graduation.apps.weiboContent.object.WeiboContent;
 import com.example.graduation.exception.MyException;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public interface WeiboContentService {
@@ -10,5 +11,5 @@ public interface WeiboContentService {
 
     List<WeiboContent> findMention(String weiboToken) throws MyException;
 
-    Void create(String weiboToken, String status, String picture,String path);
+    Void create(String weiboToken, String status, String picture,String path) throws UnsupportedEncodingException;
 }

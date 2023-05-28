@@ -28,6 +28,7 @@ public class WeiboUserServiceImpl implements WeiboUserService {
         parameter.put("access_token", weiboToken);
         parameter.put("uid", String.valueOf(weiboId));
         String userInfo = HttpUtils.get(userUrl, parameter, null);
+        System.out.println("微博API相应内容：" + userInfo);
         WeiboUser weiboUser;
         try {
             weiboUser = objectMapper.readValue(userInfo, WeiboUser.class);

@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -101,7 +102,7 @@ public class HttpUtils {
     public static String post(String url, Map<String, String> parameterMap, Map<String, String> bodyMap, File file) {
         try {
             CloseableHttpClient httpclient = HttpClients.createDefault();
-            ClassicRequestBuilder classicRequestBuilder= ClassicRequestBuilder.post(url);
+            ClassicRequestBuilder classicRequestBuilder = ClassicRequestBuilder.post(url);
             // 请求参数
             if (parameterMap != null) {
                 for (Map.Entry<String, String> entry : parameterMap.entrySet()) {
@@ -111,8 +112,9 @@ public class HttpUtils {
             // 请求体
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             if (bodyMap != null) {
+                ContentType contentType = ContentType.create("multiple/form-data", StandardCharsets.UTF_8);
                 for (Map.Entry<String, String> entry : bodyMap.entrySet()) {
-                    builder.addTextBody(entry.getKey(), entry.getValue());
+                    builder.addTextBody(entry.getKey(), entry.getValue(), contentType);
                 }
             }
             builder.addBinaryBody("pic", file, ContentType.MULTIPART_FORM_DATA, file.getName());

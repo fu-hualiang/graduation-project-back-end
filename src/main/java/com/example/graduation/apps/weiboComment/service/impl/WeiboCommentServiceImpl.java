@@ -35,6 +35,7 @@ public class WeiboCommentServiceImpl implements WeiboCommentService {
         parameter.put("count", "200");
         parameter.put("page", "1");
         String res = HttpUtils.get(commentUrl, parameter, null);
+        System.out.println(res);
         List<WeiboComment> weiboCommentList = new ArrayList<>();
         try {
             int count = objectMapper.readTree(res).get("comments").size();
@@ -47,8 +48,6 @@ public class WeiboCommentServiceImpl implements WeiboCommentService {
                 weiboComment.setRootId(comment.get("rootid").asLong());
                 weiboComment.setText(comment.get("text").asText());
                 weiboComment.setSource(comment.get("source").asText());
-                weiboComment.setLikeCount(comment.get("like_count").asLong());
-                weiboComment.setReplyCount(comment.get("reply_count").asLong());
 
                 WeiboUser weiboUser = objectMapper.readValue(comment.get("user").toString(), WeiboUser.class);
                 weiboComment.setWeiboUser(weiboUser);
@@ -80,8 +79,6 @@ public class WeiboCommentServiceImpl implements WeiboCommentService {
                 weiboComment.setRootId(comment.get("rootid").asLong());
                 weiboComment.setText(comment.get("text").asText());
                 weiboComment.setSource(comment.get("source").asText());
-                weiboComment.setLikeCount(comment.get("like_count").asLong());
-                weiboComment.setReplyCount(comment.get("reply_count").asLong());
 
                 JsonNode user = comment.get("user");
                 WeiboUser weiboUser = new WeiboUser();

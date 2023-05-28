@@ -13,14 +13,15 @@ public interface DataMapper {
             SELECT *
             FROM account_data
             WHERE weibo_id = #{weiboId}
-            ORDER BY created_at
+            ORDER BY created_at DESC
             LIMIT 14""")
     List<AccountEntity> findAccountData(Long weiboId);
 
     @Select("""
             SELECT user_data.*
             FROM follower_data, user_data
-            WHERE follower_data.weibo_id = #{weiboId} AND follower_data.follower_id = user_data.weibo_id AND user_data.deleted = 0
+            WHERE follower_data.weibo_id = #{weiboId} AND follower_data.follower_id = user_data.weibo_id
+            AND user_data.deleted = 0 AND follower_data.deleted = 0
             """)
     List<UserEntity> findUserData(Long weiboId);
 }

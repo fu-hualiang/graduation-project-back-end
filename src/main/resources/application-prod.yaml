@@ -36,6 +36,6 @@ weibo:
   grantType: authorization_code
   appKey: 2843458463
 python:
-  path: C:/workspace/environment/anaconda3/envs/MySpider/python.exe
+  path: python3
   script:
-    path: C:/workspace/code/python/MySpider/starter/
+    path: /home/www/graduation/back/MySpider/starter

@@ -10,6 +10,7 @@ import com.example.graduation.utils.MyBeanUtils;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service("dataService")
@@ -19,6 +20,7 @@ public class DataServiceImpl implements DataService {
     @Override
     public List<AccountDTO> findAccountData(Long weiboId) {
         List<AccountEntity> accountEntityList = dataMapper.findAccountData(weiboId);
+        Collections.reverse(accountEntityList);
         return MyBeanUtils.BeanBuilder(accountEntityList,AccountDTO.class);
     }
 

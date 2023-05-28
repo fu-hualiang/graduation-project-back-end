@@ -14,6 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -104,7 +107,8 @@ public class WeiboContentServiceImpl implements WeiboContentService {
     }
 
     @Override
-    public Void create(String weiboToken, String status, String picture, String path) {
+    public Void create(String weiboToken, String status, String picture, String path) throws UnsupportedEncodingException {
+//        status = URLEncoder.encode(status, StandardCharsets.UTF_8);
         String shareUrl = "https://api.weibo.com/2/statuses/share.json";
 
         Map<String, String> body = new HashMap<>();
@@ -118,7 +122,7 @@ public class WeiboContentServiceImpl implements WeiboContentService {
             res = HttpUtils.post(shareUrl, parameter, body);
         } else {
             body.put("rip", "124.222.8.252");
-            body.put("access_token", "2.00TsM5bGR8r7GD3d43417c5d09LB5T");
+            body.put("access_token", weiboToken);
 
             String pictureName = picture.split("/")[picture.split("/").length - 1];
             File file = new File(path + pictureName);

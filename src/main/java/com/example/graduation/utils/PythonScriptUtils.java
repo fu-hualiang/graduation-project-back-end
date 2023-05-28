@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PythonScriptUtils {
@@ -11,6 +12,7 @@ public class PythonScriptUtils {
 
         try {
             List<String> resultList = new ArrayList<>();
+            System.out.println(Arrays.toString(args));
             Process process = Runtime.getRuntime().exec(args);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream(), "gbk"), 8192);
             BufferedReader stdError = new BufferedReader(new InputStreamReader(process.getErrorStream(), "gbk"), 8192);

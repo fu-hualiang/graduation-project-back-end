@@ -10,7 +10,7 @@ public class UserDTO {
     String gender;
     String location;
     String verified;
-    Long birthday;
+    String birthday;
     Long age;
     String constellation;
     String school;

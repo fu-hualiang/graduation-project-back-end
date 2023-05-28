@@ -4,6 +4,7 @@ import com.example.graduation.apps.spider.object.Account;
 import com.example.graduation.apps.spider.object.Comment;
 import com.example.graduation.apps.spider.object.Weibo;
 import com.example.graduation.apps.spider.service.SpiderService;
+import com.example.graduation.apps.spider.wrapper.WeiboWrapper;
 import com.example.graduation.exception.MyException;
 import com.example.graduation.utils.PythonScriptUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,6 +12,7 @@ import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,25 +42,36 @@ public class SpiderServiceImpl implements SpiderService {
     }
 
     @Override
-    public List<Weibo> crawlWeibo(Long userId, Long page) throws MyException {
+    public WeiboWrapper crawlWeibo(Long userId, Long page) throws MyException {
         String[] args = new String[]{pythonPath, pythonScriptPath + "weibo_starter.py", String.valueOf(userId), String.valueOf(page)};
+        WeiboWrapper weiboWrapper = new WeiboWrapper();
         List<Weibo> weiboList = new ArrayList<>();
         try {
             List<String> weiboStringList = PythonScriptUtils.run(args);
+            Long total = Long.valueOf(weiboStringList.get(0));
+            weiboWrapper.setTotal(total);
+            weiboStringList.remove(0);
             for (String weiboString : weiboStringList) {
                 Weibo weibo = objectMapper.readValue(weiboString, Weibo.class);
                 weiboList.add(weibo);
             }
+            weiboWrapper.setWeiboList(weiboList);
         } catch (Exception e) {
             e.printStackTrace();
             throw new MyException(40000, "未知错误");
         }
-        return weiboList;
+        return weiboWrapper;
     }
 
     @Override
-    public List<Comment> crawlComment(String weiboId) throws MyException {
-        String[] args = new String[]{pythonPath, pythonScriptPath + "comment_starter.py", weiboId};
+    public List<Comment> crawlComment(String weiboId, String wordCloudPath) throws MyException {
+        // 检查目录
+        File dir = new File(wordCloudPath);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
+        String[] args = new String[]{pythonPath, pythonScriptPath + "comment_starter.py", weiboId, wordCloudPath + weiboId + ".png"};
         List<Comment> commentList = new ArrayList<>();
         try {
             List<String> commentStringList = PythonScriptUtils.run(args);

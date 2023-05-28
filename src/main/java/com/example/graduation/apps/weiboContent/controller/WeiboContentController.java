@@ -10,8 +10,8 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("weiboContents")
@@ -39,7 +39,7 @@ public class WeiboContentController {
      * 发布微博
      */
     @PostMapping("")
-    public Result<Void> create(@RequestBody RequestForm form, HttpServletRequest request) throws MyException {
+    public Result<Void> create(@RequestBody RequestForm form, HttpServletRequest request) throws MyException, UnsupportedEncodingException {
         String path = request.getServletContext().getRealPath("/static/pictureMaterial/");
         String weiboToken = form.getWeiboToken();
         String status = form.getStatus();

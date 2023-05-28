@@ -21,4 +21,12 @@ public class UserController {
     public Result<UserDTO> findByUserId(@PathVariable Long userId) throws MyException {
         return ResultUtil.success(userService.findByUserId(userId));
     }
+
+    /**
+     * 更新某个用户的信息
+     */
+    @PutMapping("{userId}")
+    public Result<Void> update(@PathVariable Long userId, String name) throws MyException {
+        return ResultUtil.success(userService.update(userId, name));
+    }
 }

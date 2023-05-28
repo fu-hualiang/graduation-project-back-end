@@ -24,4 +24,12 @@ public class UserServiceImpl implements UserService {
         userEntity.setAvatar(avatarPath);
         return MyBeanUtils.BeanBuilder(userEntity, UserDTO.class);
     }
+
+    @Override
+    public Void update(Long userId, String name) {
+        UserEntity userEntity = userMapper.findByUserId(userId);
+        userEntity.setName(name);
+        userMapper.update(userEntity);
+        return null;
+    }
 }
