@@ -38,4 +38,4 @@ weibo:
 python:
   path: python3
   script:
-    path: /home/www/graduation/back/MySpider/starter
+    path: /home/www/graduation/back/MySpider/starter/
